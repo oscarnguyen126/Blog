@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-sm" style="margin: 20px auto">
+  <div
+    class="container-sm d-flex align-items-end flex-row-reverse"
+    style="margin-top: 20px"
+  >
+    <button class="btn btn-outline-primary btn-sm">
+      <a href="{{ my_blog_detail.id }}/edit">Edit</a>
+    </button>
+    <button class="btn btn-outline-primary btn-sm">
+      <a href="{{ my_blog_detail.id }}/delete">Delete</a>
+    </button>
+  </div>
+
+  <center>
+    <div class="container-sm">
+      <h4>{{ my_blog_detail.title }}</h4>
+      <p class="text-start fs-4">{{ my_blog_detail.content }}</p>
+    </div>
+  </center>
+
+  <div class="container-sm d-flex align-items-end flex-column">
+    <p class="fs-6 fw-lighter" style="margin: 0">
+      Posted by: {{ my_blog_detail.user }}
+    </p>
+    <p class="fs-6 fw-lighter" style="margin: 0">
+      Posted on: {{ my_blog_detail.create_on }}
+    </p>
+    <p class="fs-6 fw-lighter" style="margin: 0">
+      Tags: {{ my_blog_detail.tags }}
+    </p>
+  </div>
+</div>
+{% endblock %}

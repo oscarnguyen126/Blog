@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Blog</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <h2 style="color: white; margin-left: 10px">Blog</h2>
+      <div class="container-fluid">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/blog">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/myblogs/">My Blog</a>
+          </li>
+          {% if user.is_authenticated %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/logout">Log out</a>
+          </li>
+          {% else %}
+
+          <li class="nav-item">
+            <a class="nav-link disabled" href="/auth/login">Log in</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    {% block content %} {% endblock %}
+  </body>
+</html>

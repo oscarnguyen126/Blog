@@ -1,0 +1,63 @@
+{% extends 'base.html' %} {% block content%}
+<center><h4>LOGIN</h4></center>
+{% if error %}
+<center><p>{{ error }}</p></center>
+{% endif %}
+<div class="mb-3 mt-3 container">
+  <form action="" method="POST">
+    {% csrf_token %}
+    <label for="username"><b>USERNAME</b></label>
+    <input
+      class="form-control"
+      type="text"
+      placeholder="Enter Username"
+      name="username"
+      required
+    />
+
+    <label for="password"><b>PASSWORD</b></label>
+    <input
+      class="form-control"
+      type="password"
+      placeholder="Enter Password"
+      name="password"
+      id="password"
+      required
+    />
+
+    <left
+      ><span
+        ><input type="checkbox" onclick="showpassword()" />Show password</span
+      ></left
+    ><br />
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <center>
+        <button class="btn btn-outline-primary btn-sm" type="submit">
+          Login
+        </button>
+      </center>
+      <center>
+        <span class="btn btn-outline-primary btn-sm"
+          >Forgot <a href="#">password?</a></span
+        >
+      </center>
+      <center>
+        <button class="btn btn-outline-primary btn-sm">
+          <a href="/auth/register">Register?</a>
+        </button>
+      </center>
+    </div>
+  </form>
+</div>
+<script>
+  function showpassword() {
+    var x = document.getElementById("password");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+</script>
+
+{% endblock %}

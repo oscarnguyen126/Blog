@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block content %}
+<div>
+  <form method="POST">
+    {% csrf_token %}
+    <label for="title">Title</label>
+    <input
+      type="text"
+      name="title"
+      id="title"
+      placeholder="Input title"
+      value="{{ blog.title }}"
+    />
+
+    <label for="content">Content</label>
+    <textarea
+      type="text"
+      name="content"
+      id="content"
+      placeholder="Input content"
+    >
+{{ blog.content }}</textarea
+    >
+
+    <label for="category">Category</label>
+    <select name="category" id="category">
+      {% for category in categories %}
+      <option value="{{ blog.category }}">{{ category.name }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="private">Private</label>
+    <input type="checkbox" id="private" value="{{ blog.private }}" />
+
+    <label for="tag">Tags</label>
+    <select name="tag" id="tag" multiple>
+      {% for tag in tags %}
+      <option value="{{ tag }}">{{ tag.name }}</option>
+      {% endfor %}
+    </select>
+    <center>
+      <input class="btn btn-outline-primary btn-sm" type="submit" />
+    </center>
+  </form>
+</div>
+
+{% endblock %}

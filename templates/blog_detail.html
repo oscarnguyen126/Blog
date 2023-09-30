@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+<center>
+  <div class="container-sm" style="margin-top: 20px">
+    <h4>{{ blog.title }}</h4>
+    <p class="text-start fs-4">{{ blog.content }}</p>
+  </div>
+</center>
+<div class="container-sm d-flex align-items-end flex-column">
+  <p class="fs-6 fw-lighter" style="margin: 0">Posted by: {{ blog.user }}</p>
+  <p class="fs-6 fw-lighter" style="margin: 0">
+    Posted on: {{ blog.create_on }}
+  </p>
+  <p class="fs-6 fw-lighter" style="margin: 0">Tags: {{ blog.tags }}</p>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %} {% block content %}
+<center><h2>Register Form</h2></center>
+{% if error %}
+<center><p class="error_notify">{{ error }}</p></center>
+{% endif %}
+<div class="mb-3 mt-3 container">
+  <form action="" method="POST">
+    {% csrf_token %}
+    <label for="username"><b>USERNAME</b></label>
+    <input
+      class="form-control"
+      type="text"
+      placeholder="Enter Username"
+      id="username"
+      name="username"
+      required
+    />
+
+    <label for="password"><b>PASSWORD</b></label>
+    <input
+      class="form-control"
+      type="password"
+      placeholder="Enter Password"
+      id="password"
+      name="password"
+      required
+    />
+
+    <div style="margin-bottom: 5px">
+      <left
+        ><span
+          ><input type="checkbox" onclick="showpassword()" />show</span
+        ></left
+      >
+    </div>
+
+    <label for="confirm_password"><b>CONFIRM PASSWORD</b></label>
+    <input
+      class="form-control"
+      type="password"
+      placeholder="Enter Password"
+      id="confirm_password"
+      name="confirm_password"
+      required
+    />
+
+    <div style="margin-bottom: 5px">
+      <left
+        ><span
+          ><input type="checkbox" onclick="showconfirmpassword()" />show</span
+        ></left
+      >
+    </div>
+
+    <center>
+      <button class="btn btn-outline-primary btn-sm" type="submit">
+        Register
+      </button>
+    </center>
+    <center><a href="/auth/login">Already have account?</a></center>
+  </form>
+</div>
+<script>
+  function showpassword() {
+    var x = document.getElementById("password");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+
+  function showconfirmpassword() {
+    var x = document.getElementById("confirm_password");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+</script>
+{% endblock %}

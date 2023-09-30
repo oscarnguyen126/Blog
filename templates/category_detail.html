@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-3 d-flex justify-content-around">
+  <ul class="nav">
+    {% for cat in cats %}
+    <li class="nav-item">
+      <a class="nav-link" href="/blog/categories/{{cat.id}}">{{ cat }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+<div>
+  <center><h3>{{ cat.name }}</h3></center>
+</div>
+{% for blog in blogs %}
+<div class="container-sm border border-secondary">
+  <center>
+    <div class="container-sm">
+      <h4><a href="{{ blog.id }}">{{ blog.title }}</a></h4>
+      <p class="text-start fs-4">{{ blog.content }}</p>
+    </div>
+  </center>
+  <div class="container-sm d-flex align-items-end flex-column">
+    <p class="fs-6 fw-lighter" style="margin: 0">Posted by: {{ blog.user }}</p>
+    <p class="fs-6 fw-lighter" style="margin: 0">
+      Posted on: {{ blog.create_on }}
+    </p>
+    <p class="fs-6 fw-lighter" style="margin: 0">Tags: {{ blog.tags }}</p>
+  </div>
+</div>
+{% endfor %}{% endblock %}

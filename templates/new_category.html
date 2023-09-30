@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block content %}
+<div class="mb-3 container-sm" style="margin-top: 40px">
+  <form action="/categories" method="POST">
+    <h4>New category</h4>
+    {% csrf_token %}
+    <label for="name" class="form-label">Name</label>
+    <input
+      class="form-control"
+      type="text"
+      name="name"
+      id="name"
+      placeholder="Input category name"
+    />
+    <center>
+      <input
+        class="btn btn-outline-primary btn-sm"
+        style="margin-top: 10px"
+        type="submit"
+      />
+    </center>
+  </form>
+</div>
+{% endblock %}
