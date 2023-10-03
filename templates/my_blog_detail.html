@@ -27,7 +27,7 @@
       Posted on: {{ my_blog_detail.create_on }}
     </p>
     <p class="fs-6 fw-lighter" style="margin: 0">
-      Tags: {{ my_blog_detail.tags }}
+      Tags: {% for tag in my_blog_detail.tags.all %} {{ tag }} {% endfor %}
     </p>
   </div>
 </div>

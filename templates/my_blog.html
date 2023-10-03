@@ -14,11 +14,15 @@
   </center>
 
   <div class="container-sm d-flex align-items-end flex-column">
-    <p class="fs-6 fw-lighter" style="margin: 0">Posted by: {{ blog.user }}</p>
+    <p class="fs-6 fw-lighter" style="margin: 0">
+      Posted by: {{ blog.create_by }}
+    </p>
     <p class="fs-6 fw-lighter" style="margin: 0">
       Posted on: {{ blog.create_on }}
     </p>
-    <p class="fs-6 fw-lighter" style="margin: 0">Tags: {{ blog.tags }}</p>
+    <p class="fs-6 fw-lighter" style="margin: 0">
+      {% for tag in blog.tags.all %} Tags: {{ tag }} {% endfor %}
+    </p>
   </div>
 </div>
 {% endfor %} {% endblock %}
