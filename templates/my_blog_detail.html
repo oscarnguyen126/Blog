@@ -21,13 +21,10 @@
 
   <div class="container-sm d-flex align-items-end flex-column">
     <p class="fs-6 fw-lighter" style="margin: 0">
-      Posted by: {{ my_blog_detail.user }}
-    </p>
-    <p class="fs-6 fw-lighter" style="margin: 0">
       Posted on: {{ my_blog_detail.create_on }}
     </p>
     <p class="fs-6 fw-lighter" style="margin: 0">
-      Tags: {{ my_blog_detail.tags }}
+      Tags: {% for tag in blog.tags.all %} {{ tag }} {% endfor %}
     </p>
   </div>
 </div>

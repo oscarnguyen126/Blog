@@ -19,6 +19,13 @@ def home(request):
     return render(request, 'home.html', {"cats":cats, "blogs": blogs})
 
 
+def search_blog(request):
+    if request.method == 'POST':
+        content = request.POST.get('content')
+        res = Blog.objects.filter(title__icontains=content) | Blog.objects.filter(content__icontains=content)
+        return render(request, 'search_result.html', {"res": res})
+
+
 def user_blog_detail(request, id, pk):
     user = User.objects.get(id=id)
     blog = Blog.objects.get(create_by_id=id, id=pk)
@@ -38,40 +45,37 @@ def my_blog_delete(request, id):
     if not request.user.is_authenticated:
         return redirect('/auth/login')
     
-    my_blogs = Blog.objects.filter(create_by=request.user)
-    for blog in my_blogs:
-        try:
-            my_blog_detail = Blog.objects.get(id=id)
-            my_blog_detail.delete()
-            return redirect('my_blog')
-        except:
-            return HttpResponse('Not found')
+    my_blog_detail = Blog.objects.get(id=id)
+    if request.user != my_blog_detail.create_by:
+        return HttpResponse("This blog is belong to another user")
+
+    my_blog_detail.delete()
+    return redirect('my_blog')
 
 
 def my_blog_edit(request, id):
     if not request.user.is_authenticated:
         return redirect('/auth/login')
         
-    my_blogs = Blog.objects.filter(create_by=request.user)
-    for blog in my_blogs:
-        my_blog_detail = Blog.objects.get(id=id)
-        if request.method == 'POST':
-            my_blog_detail.title = request.POST.get('title')
-            my_blog_detail.content = request.POST.get('content')
-            my_blog_detail.update_on = datetime.now()
-            my_blog_detail.update_by = request.user
-            return redirect('my_blog')
-        return render(request, 'my_blog_edit.html', {"my_blog_detail": my_blog_detail})
+    my_blog_detail = Blog.objects.get(id=id)
+    if request.user != my_blog_detail.create_by:
+        return HttpResponse("This blog is belong to another user")
+    
+    if request.method == 'POST':
+        my_blog_detail.title = request.POST.get('title')
+        my_blog_detail.content = request.POST.get('content')
+        my_blog_detail.update_on = datetime.now()
+        my_blog_detail.update_by = request.user
+        return redirect('my_blog')
+    return render(request, 'my_blog_edit.html', {"my_blog_detail": my_blog_detail})
 
 
 def my_blog_detail(request, id):
     if not request.user.is_authenticated:
         return redirect('/auth/login')
     
-    my_blogs = Blog.objects.filter(create_by=request.user)
-    for blog in my_blogs:
-        my_blog_detail = Blog.objects.get(id=id)
-    return render(request, 'my_blog_detail.html', {'my_blogs': my_blogs, "my_blog_detail": my_blog_detail})
+    my_blog_detail = Blog.objects.get(id=id)
+    return render(request, 'my_blog_detail.html', {"my_blog_detail": my_blog_detail})
 
 
 def my_blog(request):

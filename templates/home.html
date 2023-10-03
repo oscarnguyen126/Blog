@@ -20,7 +20,13 @@
 {% if blogs %} {% for blog in blogs %}
 <div
   class="container-sm border border-secondary"
-  style="margin: 20px auto; border-radius: 30px"
+  style="
+    margin: 20px auto;
+    border-radius: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  "
 >
   <center>
     <div class="container-sm">
@@ -58,5 +64,5 @@
   </span>
 </div>
 {% else %}
-<h4>There aren't any blog</h4>
+<center><h4>There aren't any blog</h4></center>
 {% endif %} {% endblock %}
