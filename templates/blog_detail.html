@@ -10,8 +10,6 @@
   <p class="fs-6 fw-lighter" style="margin: 0">
     Posted on: {{ blog.create_on }}
   </p>
-  <p class="fs-6 fw-lighter" style="margin: 0">
-    Tags: {% for tag in blog.tags.all %} {{ tag }} {% endfor %}
-  </p>
+  <p class="fs-6 fw-lighter" style="margin: 0">Tags: {{ blog.tags }}</p>
 </div>
 {% endblock %}

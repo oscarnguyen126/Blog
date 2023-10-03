@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, HttpResponse
 from .models import Category, Tag, Blog
 from datetime import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from authen.models import User
 
 
 def home(request):
@@ -19,26 +18,11 @@ def home(request):
     return render(request, 'home.html', {"cats":cats, "blogs": blogs})
 
 
-def user_blog_detail(request, id, pk):
-    user = User.objects.get(id=id)
-    blog = Blog.objects.get(create_by_id=id, id=pk)
-    return render(request, 'user_blog_detail.html', {'user': user, 'blog': blog })
-
-
-def filter_by_user(request, id):
-    try:
-        user = User.objects.get(id=id)
-        blogs = Blog.objects.filter(create_by=id)
-        return render(request, 'user_blog.html', {'blogs': blogs, 'user':user})
-    except:
-        return HttpResponse('user not found')
-
-
 def my_blog_delete(request, id):
     if not request.user.is_authenticated:
         return redirect('/auth/login')
     
-    my_blogs = Blog.objects.filter(create_by=request.user)
+    my_blogs = Blog.objects.filter(user=request.user.id)
     for blog in my_blogs:
         try:
             my_blog_detail = Blog.objects.get(id=id)
@@ -48,11 +32,12 @@ def my_blog_delete(request, id):
             return HttpResponse('Not found')
 
 
+
 def my_blog_edit(request, id):
     if not request.user.is_authenticated:
         return redirect('/auth/login')
         
-    my_blogs = Blog.objects.filter(create_by=request.user)
+    my_blogs = Blog.objects.filter(user=request.user.id)
     for blog in my_blogs:
         my_blog_detail = Blog.objects.get(id=id)
         if request.method == 'POST':
@@ -68,7 +53,7 @@ def my_blog_detail(request, id):
     if not request.user.is_authenticated:
         return redirect('/auth/login')
     
-    my_blogs = Blog.objects.filter(create_by=request.user)
+    my_blogs = Blog.objects.filter(user=request.user.id)
     for blog in my_blogs:
         my_blog_detail = Blog.objects.get(id=id)
     return render(request, 'my_blog_detail.html', {'my_blogs': my_blogs, "my_blog_detail": my_blog_detail})
@@ -78,7 +63,7 @@ def my_blog(request):
     if not request.user.is_authenticated:
         return redirect('/auth/login')
     
-    my_blogs = Blog.objects.filter(create_by=request.user)
+    my_blogs = Blog.objects.filter(user=request.user.id)
     return render(request, 'my_blog.html', {'my_blogs': my_blogs})
 
 
@@ -98,7 +83,7 @@ def edit_blog(request, id):
         tags = Tag.objects.all()
         categories = Category.objects.all()
         blog = Blog.objects.get(id=id)
-        if blog.create_by != request.user:
+        if blog.user != request.user:
             return HttpResponse('You are not the owner')
         
         if request.method == 'POST':
@@ -129,13 +114,13 @@ def create_blog(request):
         content = request.POST.get('content')
         private = request.POST.get('private', False)
         category = request.POST.get('category')
-        create_by = request.user
-        blog = Blog(title=title, content=content, private=private, category_id=category, create_by=create_by)
+        tags = request.POST.get('tags')
+        user = request.user
+        blog = Blog(title=title, content=content, private=private, category_id=category, user=user)
         blog.save()
-        tags = request.POST.getlist('tag')
-        for id in tags:
-            tag = Tag.objects.get(id=id)
-            blog.tags.add(tag)
+        breakpoint()
+        blog.tags.add(tags)
+        blog.save()
         return redirect('home')
     
     return render(request, 'new_post.html', {'categories': categories, 'all_tags': all_tags})
