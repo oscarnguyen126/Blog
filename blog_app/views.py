@@ -154,8 +154,6 @@ def create_tag(request):
         tag = Tag(name=name)
         tag.save()
     
-    return render(request, 'tags.html')
-
 
 def category_create(request):
     if not request.user.is_authenticated:
