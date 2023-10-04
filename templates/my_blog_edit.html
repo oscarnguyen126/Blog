@@ -9,7 +9,9 @@
       type="text"
       name="title"
       id="title"
+      value="{{ blog.title }}"
       placeholder="Input title"
+      required
     />
 
     <label for="content" class="form-label">Content</label>
@@ -19,22 +21,35 @@
       name="content"
       id="content"
       placeholder="Input content"
-    ></textarea>
+    >
+{{ blog.content }}</textarea
+    >
 
     <label for="category" class="form-label">Category</label>
-    <select class="form-select" name="category" id="category">
+    <select
+      class="form-select"
+      name="category"
+      id="category"
+      value="{{ blog.category}}"
+    >
       {% for category in categories %}
-      <option value="{{ category }}">{{ category.name }}</option>
+      <option value="{{ category.id }}">{{ category.name }}</option>
       {% endfor %}
     </select>
 
     <label for="private" class="form-label">Private</label>
-    <input type="checkbox" id="private" checked="true" /><br />
+    <input type="checkbox" id="private" /><br />
 
-    <label for="tag" class="form-label">Tags</label>
-    <select class="form-select" name="tag" id="tag" multiple>
-      {% for tag in all_tags %}
-      <option value="{{ tag }}">{{ tag.name }}</option>
+    <label for="tags" class="form-label">Tags</label>
+    <select
+      class="form-select"
+      name="tags"
+      id="tags"
+      value="{{ blog.tags.all }}"
+      multiple
+    >
+      {% for tag in tags %}
+      <option value="{{ tag.id }}">{{ tag.name }}</option>
       {% endfor %}
     </select>
     <center>

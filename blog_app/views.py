@@ -56,18 +56,25 @@ def my_blog_delete(request, id):
 def my_blog_edit(request, id):
     if not request.user.is_authenticated:
         return redirect('/auth/login')
-        
-    my_blog_detail = Blog.objects.get(id=id)
-    if request.user != my_blog_detail.create_by:
+
+    categories = Category.objects.all()  
+    tags = Tag.objects.all()  
+    blog = Blog.objects.get(id=id)
+    if request.user != blog.create_by:
         return HttpResponse("This blog is belong to another user")
     
     if request.method == 'POST':
-        my_blog_detail.title = request.POST.get('title')
-        my_blog_detail.content = request.POST.get('content')
-        my_blog_detail.update_on = datetime.now()
-        my_blog_detail.update_by = request.user
+        blog.title = request.POST.get('title')
+        blog.content = request.POST.get('content')
+        blog.update_on = datetime.now()
+        blog.update_by = request.user
+        blog.save()
+        tags = request.POST.getlist('tags')
+        for pk in tags:
+            tag = Tag.objects.get(pk=pk)
+            blog.tags.add(tag)
         return redirect('my_blog')
-    return render(request, 'my_blog_edit.html', {"my_blog_detail": my_blog_detail})
+    return render(request, 'my_blog_edit.html', {"blog": blog, "categories": categories, 'tags': tags})
 
 
 def my_blog_detail(request, id):
@@ -113,6 +120,10 @@ def edit_blog(request, id):
             blog.update_on = datetime.now()
             blog.update_by = request.user
             blog.save()
+            tags = request.POST.getlist('tags')
+            for pk in tags:
+                tag = Tag.objects.get(pk=pk)
+                blog.tags.add(tag)
             return redirect('/blog/categories')
         
         else:
@@ -136,7 +147,7 @@ def create_blog(request):
         create_by = request.user
         blog = Blog(title=title, content=content, private=private, category_id=category, create_by=create_by)
         blog.save()
-        tags = request.POST.getlist('tag')
+        tags = request.POST.getlist('tags')
         for id in tags:
             tag = Tag.objects.get(id=id)
             blog.tags.add(tag)
@@ -145,15 +156,28 @@ def create_blog(request):
     return render(request, 'new_post.html', {'categories': categories, 'all_tags': all_tags})
 
 
+def delete_tag(request, id):
+    if not request.user.is_authenticated:
+        return redirect('/auth/login')
+
+    tag = Tag.objects.get(id=id)
+    tag.delete()
+
+
 def create_tag(request):
     if not request.user.is_authenticated:
         return redirect('/auth/login')
 
     if request.method == 'POST':
         name = request.POST['name']
-        tag = Tag(name=name)
+        tags = Tag.objects.filter(name=name)
+        if len(tags)>0:
+            return HttpResponse('Tag existed')
+        tag = Tag(name=name,create_by=request.user)
         tag.save()
-    
+        return redirect('/blog/new')
+    return render(request, 'tags.html')
+
 
 def category_create(request):
     if not request.user.is_authenticated:
