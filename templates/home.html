@@ -35,15 +35,29 @@
     </div>
   </center>
   <div class="container-sm d-flex align-items-end flex-column">
+    {% if not blog.update_by %}
     <p class="fs-6 fw-lighter" style="margin: 0">
       Posted by:
       <a href="/blog/user/{{ blog.create_by_id }}/blogs"
         >{{ blog.create_by }}</a
       >
     </p>
+    {% else %}
+    <p class="fs-6 fw-lighter" style="margin: 0">
+      Updated by:
+      <a href="/blog/user/{{ blog.update_by_id }}/blogs"
+        >{{ blog.update_by }}</a
+      >
+    </p>
+    {% endif %} {% if not blog.update_on %}
     <p class="fs-6 fw-lighter" style="margin: 0">
       Posted on: {{ blog.create_on }}
     </p>
+    {% else %}
+    <p class="fs-6 fw-lighter" style="margin: 0">
+      Updated on: {{ blog.update_on }}
+    </p>
+    {% endif %}
     <p class="fs-6 fw-lighter" style="margin: 0">
       Tags: {% for tag in blog.tags.all %} {{ tag }} {% endfor %}
     </p>

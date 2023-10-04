@@ -20,9 +20,15 @@
   </center>
 
   <div class="container-sm d-flex align-items-end flex-column">
+    {% if not my_blog_detail.update_on %}
     <p class="fs-6 fw-lighter" style="margin: 0">
       Posted on: {{ my_blog_detail.create_on }}
     </p>
+    {% else %}
+    <p class="fs-6 fw-lighter" style="margin: 0">
+      Updated on: {{ my_blog_detail.update_on }}
+    </p>
+    {% endif %}
     <p class="fs-6 fw-lighter" style="margin: 0">
       Tags: {% for tag in my_blog_detail.tags.all %} {{ tag }} {% endfor %}
     </p>

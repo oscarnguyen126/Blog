@@ -31,9 +31,9 @@
 
     <label for="private" class="form-label">Private</label>
     <input type="checkbox" id="private" checked="true" /><br />
+    <select class="form-select" name="tag" id="tag" multiple>
 
     <label for="tag">Tags</label>
-    <select class="form-select" name="tag" id="tag" multiple>
       {% for tag in all_tags %}
       <option value="{{ tag.id }}">{{ tag.name }}</option>
       {% endfor %}
